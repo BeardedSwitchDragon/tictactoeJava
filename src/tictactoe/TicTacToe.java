@@ -34,26 +34,37 @@ public class TicTacToe {
 		
 		
 		
-		
+		x = 2;
+		y = 1;
 		//interpret grid here:
 		
 		//here i use 3x3 because a tictactoe grid will always be in these dimensions.
-		if (y < 3 && x < 3) {
-			coords[turn] = new int[] {x, y + 1};
-		} else if ( y >= 3) {
-			//i use 3 instead of y in case someone puts higher than 3, same for x.
-			coords[turn] = new int[] {x, 3};
-		} else if ( x >= 3) {
+		if (y < 2 && x < 2) {
+			x += 1;
+			y += 1;
+		} else if ( y > 2) {
+			//(2 is equiv. to 3 i.e the edge of the grid)
+			//i use 2 instead of y in case someone puts higher than 2, same for x.
+			coords[turn] = new int[] {x, 2};
+		} else if ( x > 2) {
+			x = 2;
 			
-			coords[turn] = new int[] {3, y + 1};
-		} else {
-			coords[turn] = new int[] {3, 3};
+		} else if (y <= 0) {
+			y = 1;
 		}
+		else {
+			x = 2;
+			y = 2;
+		}
+		
+		coords[turn] = new int[] {x, y};
 		//update grid
-		int[] newCoords = coords[coords.length - 1];
+		int[] newCoords = coords[turn];
+		
+		
 		if (p1Turn) {
 			
-			renderableGrid[newCoords[0]][newCoords[1]] = " X|";
+			renderableGrid[newCoords[1]][newCoords[0]] = " X|";
 		} else {
 			renderableGrid[newCoords[1]][newCoords[0]] = " O|";
 		}
@@ -66,6 +77,7 @@ public class TicTacToe {
 			}
 			System.out.println();
 		}
+		turn++;
 	}
 	
 	public static int[] getInput() {
