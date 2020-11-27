@@ -80,7 +80,19 @@ public class TicTacToe {
 				}
 
 			} else {
-				renderableGrid[y][x] = "  O|";
+				switch (x) {
+				case 0:
+					renderableGrid[y][x] = " O|";
+					break;
+				case 1:
+					renderableGrid[y][x] = "  O|";
+					break;
+				case 2:
+					renderableGrid[y][x] = "  O|";
+					break;
+				default:
+					break;
+				}
 			}
 		} else {
 			if (p1Turn) System.out.println("Space is already occupied!");
@@ -114,7 +126,7 @@ public class TicTacToe {
 
 	public static int[] computerInput() {
 		Random rand = new Random();
-		int[] compCoords = {(int) (1 + Math.random() * 2), rand.nextInt(3)};
+		int[] compCoords = {(int) (1 + Math.random() * 3), rand.nextInt(3)};
 		System.out.println(Arrays.toString(compCoords));
 		return compCoords;
 	}
@@ -143,11 +155,13 @@ public class TicTacToe {
 				//System.out.println(square.contains("X"));
 
 				//this block of code replaced 'isMatchedX = square.contains("X")' [
-				if (square.contains("X")) {
+				if (square.contains("X") && isMatchedO == false) {
 					isMatchedX = true;
+					
 
-				} else if (square.contains("O")){
+				} else if (square.contains("O") && isMatchedX == false){
 					isMatchedO = true;
+					
 
 				} else {
 					isMatchedO = false;
@@ -174,10 +188,10 @@ public class TicTacToe {
 			for (int i = 1; i < 6; i += 2) {
 
 				//this block of code replaced 'isMatchedX = renderableGrid[i][j].contains("X")' [
-				if (renderableGrid[i][j].contains("X")) {
+				if (renderableGrid[i][j].contains("X") && isMatchedO == false) {
 					isMatchedX = true;
 
-				} else if (renderableGrid[i][j].contains("O")){
+				} else if (renderableGrid[i][j].contains("O") && isMatchedX == false){
 					isMatchedO = true;
 
 				} else {
