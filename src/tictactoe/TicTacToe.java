@@ -5,7 +5,7 @@ import java.util.*;
 public class TicTacToe {
 	static int turn = 0;
 	public static boolean gameDone = false;
-	public static int[][] coords = new int[9][2];
+	public static int[][] coords = new int[18][2];
 	static String[][] renderableGrid = {
 			{"---", " --- ", "---"},
 			{"  |", "   |", "   |"},
@@ -33,7 +33,7 @@ public class TicTacToe {
 				boolean t;
 				while (t = displayGrid(compInput[0], compInput[1], false)) {
 					compInput = computerInput();
-					System.out.println(t);
+					
 				}
 			}
 
@@ -112,24 +112,31 @@ public class TicTacToe {
 
 	public static int[] computerInput() {
 		Random rand = new Random();
-		int[] compCoords = {rand.nextInt(3 - 2) + 1, rand.nextInt(3)};
+		int[] compCoords = {rand.nextInt(1) + 1, rand.nextInt(3)};
 		return compCoords;
 	}
 
 	public static boolean checkWin() {
 
 		boolean isMatched = true;
-		boolean prevMatched = true;
+		
 		String winner;
 		for (String[] gridY: renderableGrid) {
 			//check if horizontal win
 			for (String square: gridY) {
 				//System.out.println(square.contains("X"));
-				prevMatched = isMatched;
-				isMatched = square.contains("X");
-				System.out.println(isMatched);
+				
+				//this block of code replaced 'isMatched = square.contains("X")' [
+				if (square.contains("X")) {
+					isMatched = true;
+				} else {
+					isMatched = false;
+					break;
+				}
+				//]
+				
 			}
-			if (isMatched && prevMatched) {
+			if (isMatched) {
 				System.out.println("winner is X horizontally");
 				return isMatched;
 			}
@@ -140,9 +147,15 @@ public class TicTacToe {
 		//check if vertical win
 		for (int j = 0; j < 3; j++) {
 			for (int i = 1; i < 6; i += 2) {
-
-				isMatched = renderableGrid[i][j].contains("X");
-
+				
+				//this block of code replaced 'isMatched = renderableGrid[i][j].contains("X")' [
+				if (renderableGrid[i][j].contains("X")) {
+					isMatched = true;
+				} else {
+					isMatched = false;
+					break;
+				}
+				//]
 
 
 
