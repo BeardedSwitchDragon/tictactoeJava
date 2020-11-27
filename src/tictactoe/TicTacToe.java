@@ -14,7 +14,7 @@ public class TicTacToe {
 			{"---", " --- ", "---"},
 			{"  |", "   |", "   |"},
 			{"---", " --- ", "---"}
-			
+
 	};
 	public static void main(String[] args) {
 		//GAME LOOP
@@ -34,7 +34,7 @@ public class TicTacToe {
 				boolean t;
 				while (t = displayGrid(compInput[0], compInput[1], false)) {
 					compInput = computerInput();
-					
+
 				}
 			}
 
@@ -133,36 +133,37 @@ public class TicTacToe {
 
 	public static boolean checkWin() {
 
-		boolean isMatchedX = true;
-		boolean isMatchedO = true;
-		
+		boolean isMatchedX = false;
+		boolean isMatchedO = false;
+
 		String winner;
 		for (String[] gridY: renderableGrid) {
 			//check if horizontal win
 			for (String square: gridY) {
 				//System.out.println(square.contains("X"));
-				
+
 				//this block of code replaced 'isMatchedX = square.contains("X")' [
 				if (square.contains("X")) {
 					isMatchedX = true;
+
+				} else if (square.contains("O")){
+					isMatchedO = true;
+
 				} else {
+					isMatchedO = false;
 					isMatchedX = false;
 					break;
 				}
 				//]
-				if (square.contains("O")) {
-					isMatchedO = true;
-				} else {
-					isMatchedO = false;
-					break;
-				}
-				
+
+
 			}
 			if (isMatchedX) {
 				System.out.println("winner is X horizontally");
 				return true;
 			} else if (isMatchedO) {
 				System.out.println("winner is O horizontally");
+				return true;
 			}
 
 
@@ -171,23 +172,19 @@ public class TicTacToe {
 		//check if vertical win
 		for (int j = 0; j < 3; j++) {
 			for (int i = 1; i < 6; i += 2) {
-				
+
 				//this block of code replaced 'isMatchedX = renderableGrid[i][j].contains("X")' [
 				if (renderableGrid[i][j].contains("X")) {
 					isMatchedX = true;
+
+				} else if (renderableGrid[i][j].contains("O")){
+					isMatchedO = true;
+
 				} else {
+					isMatchedO = false;
 					isMatchedX = false;
 					break;
 				}
-				//]
-				
-				if (renderableGrid[i][j].contains("O")) {
-					isMatchedO = true;
-				} else {
-					isMatchedO = false;
-					break;
-				}
-
 
 
 			}
@@ -200,15 +197,16 @@ public class TicTacToe {
 		}
 		//diagonal win
 		if ((renderableGrid[1][2].contains("X") && renderableGrid[3][1].contains("X") && renderableGrid[5][0].contains("X")) ||
-			(renderableGrid[1][0].contains("X") && renderableGrid[3][1].contains("X") && renderableGrid[5][2].contains("X"))) {
-			
+				(renderableGrid[1][0].contains("X") && renderableGrid[3][1].contains("X") && renderableGrid[5][2].contains("X"))) {
+
 			System.out.println("Winner is X diagonally");
 			return true;
 		}else if ((renderableGrid[1][2].contains("O") && renderableGrid[3][1].contains("O") && renderableGrid[5][0].contains("O")) ||
 				(renderableGrid[1][0].contains("O") && renderableGrid[3][1].contains("O") && renderableGrid[5][2].contains("O"))) {
-				isMatchedO = true;
-				System.out.println("Winner is O diagonally");
-			}
+
+			System.out.println("Winner is O diagonally");
+			return true;
+		}
 
 		//System.out.println("wpllpl");
 		return false;
