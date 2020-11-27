@@ -126,7 +126,7 @@ public class TicTacToe {
 
 	public static int[] computerInput() {
 		Random rand = new Random();
-		int[] compCoords = {(int) (1 + Math.random() * 3), rand.nextInt(3)};
+		int[] compCoords = {(int) (1 + Math.random() * 3), rand.nextInt(4)};
 		System.out.println(Arrays.toString(compCoords));
 		return compCoords;
 	}
