@@ -204,7 +204,11 @@ public class TicTacToe {
 			
 			System.out.println("Winner is X diagonally");
 			return true;
-		}
+		}else if ((renderableGrid[1][2].contains("O") && renderableGrid[3][1].contains("O") && renderableGrid[5][0].contains("O")) ||
+				(renderableGrid[1][0].contains("O") && renderableGrid[3][1].contains("O") && renderableGrid[5][2].contains("O"))) {
+				isMatchedO = true;
+				System.out.println("Winner is O diagonally");
+			}
 
 		//System.out.println("wpllpl");
 		return false;
