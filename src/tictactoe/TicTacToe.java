@@ -24,13 +24,17 @@ public class TicTacToe {
 			int[] compInput = computerInput();
 
 			//render grid
-			
+
 			while (displayGrid(input[0], input[1], true)) {
 				input = getInput();
 			}
-			System.out.println("My turn now:");
-			while (displayGrid(compInput[0], compInput[1], false)) {
-				compInput = computerInput();
+			if (gameDone == false) {
+				System.out.println("My turn now:");
+				boolean t;
+				while (t = displayGrid(compInput[0], compInput[1], false)) {
+					compInput = computerInput();
+					System.out.println(t);
+				}
 			}
 
 		}
@@ -38,7 +42,7 @@ public class TicTacToe {
 	}
 	public static boolean displayGrid(int x, int y, boolean p1Turn) {
 		//Hashtable of co-ords on the grid - to be rendered/interpreted:
-		
+
 
 
 
@@ -105,7 +109,7 @@ public class TicTacToe {
 		turn++;
 		return coordsInput;
 	}
-	
+
 	public static int[] computerInput() {
 		Random rand = new Random();
 		int[] compCoords = {rand.nextInt(3 - 2) + 1, rand.nextInt(3)};
@@ -115,15 +119,18 @@ public class TicTacToe {
 	public static boolean checkWin() {
 
 		boolean isMatched = true;
+		boolean prevMatched = true;
 		String winner;
 		for (String[] gridY: renderableGrid) {
 			//check if horizontal win
 			for (String square: gridY) {
 				//System.out.println(square.contains("X"));
+				prevMatched = isMatched;
 				isMatched = square.contains("X");
+				System.out.println(isMatched);
 			}
-			if (isMatched) {
-				System.out.println("winner is X");
+			if (isMatched && prevMatched) {
+				System.out.println("winner is X horizontally");
 				return isMatched;
 			}
 
@@ -135,13 +142,13 @@ public class TicTacToe {
 			for (int i = 1; i < 6; i += 2) {
 
 				isMatched = renderableGrid[i][j].contains("X");
-				
 
-				
+
+
 
 			}
 			if (isMatched) {
-				System.out.println("winner is X");
+				System.out.println("winner is X vertically");
 				return isMatched;
 			}
 		}
@@ -149,7 +156,7 @@ public class TicTacToe {
 		//System.out.println("wpllpl");
 		return isMatched;
 
-		
+
 	}
 
 
