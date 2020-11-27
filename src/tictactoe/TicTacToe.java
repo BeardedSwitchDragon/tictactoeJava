@@ -79,7 +79,7 @@ public class TicTacToe {
 				}
 
 			} else {
-				renderableGrid[y][x] = " O|";
+				renderableGrid[y][x] = "  O|";
 			}
 		} else {
 			if (p1Turn) System.out.println("Space is already occupied!");
@@ -112,7 +112,8 @@ public class TicTacToe {
 
 	public static int[] computerInput() {
 		Random rand = new Random();
-		int[] compCoords = {rand.nextInt(1) + 1, rand.nextInt(3)};
+		int[] compCoords = {(int) (1 + Math.random() * 2), rand.nextInt(3)};
+		System.out.println(Arrays.toString(compCoords));
 		return compCoords;
 	}
 
