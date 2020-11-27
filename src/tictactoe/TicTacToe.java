@@ -21,16 +21,24 @@ public class TicTacToe {
 			//get input
 
 			int[] input = getInput();
+			int[] compInput = computerInput();
 
 			//render grid
-			displayGrid(input[0], input[1], true);
+			
+			while (displayGrid(input[0], input[1], true)) {
+				input = getInput();
+			}
+			System.out.println("My turn now:");
+			while (displayGrid(compInput[0], compInput[1], false)) {
+				compInput = computerInput();
+			}
 
 		}
 
 	}
-	public static void displayGrid(int x, int y, boolean p1Turn) {
+	public static boolean displayGrid(int x, int y, boolean p1Turn) {
 		//Hashtable of co-ords on the grid - to be rendered/interpreted:
-
+		
 
 
 
@@ -48,7 +56,7 @@ public class TicTacToe {
 		coords[turn] = new int[] {x, y};
 		//update grid
 
-		if (renderableGrid[y][x].contains("X") == false || renderableGrid[y][x].contains("O") == false ) {
+		if (renderableGrid[y][x].contains("X") == false && renderableGrid[y][x].contains("O") == false ) {
 
 			if (p1Turn) {
 
@@ -70,7 +78,8 @@ public class TicTacToe {
 				renderableGrid[y][x] = " O|";
 			}
 		} else {
-			System.out.println("Space is already occupied!");
+			if (p1Turn) System.out.println("Space is already occupied!");
+			return true;
 		}
 		//render grid
 		for (String[] gridY: renderableGrid) {
@@ -83,6 +92,7 @@ public class TicTacToe {
 		}
 		gameDone = checkWin();
 		turn++;
+		return false;
 	}
 
 	public static int[] getInput() {
@@ -94,6 +104,12 @@ public class TicTacToe {
 		coordsInput[0] = in.nextInt();
 		turn++;
 		return coordsInput;
+	}
+	
+	public static int[] computerInput() {
+		Random rand = new Random();
+		int[] compCoords = {rand.nextInt(3 - 2) + 1, rand.nextInt(3)};
+		return compCoords;
 	}
 
 	public static boolean checkWin() {
