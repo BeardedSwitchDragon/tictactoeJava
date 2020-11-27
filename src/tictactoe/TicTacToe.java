@@ -14,6 +14,7 @@ public class TicTacToe {
 			{"---", " --- ", "---"},
 			{"  |", "   |", "   |"},
 			{"---", " --- ", "---"}
+			
 	};
 	public static void main(String[] args) {
 		//GAME LOOP
@@ -94,7 +95,8 @@ public class TicTacToe {
 			}
 			System.out.println();
 		}
-		gameDone = checkWin();
+		//gets whichever is true
+		gameDone = (checkTie() || checkWin());
 		turn++;
 		return false;
 	}
@@ -116,10 +118,23 @@ public class TicTacToe {
 		System.out.println(Arrays.toString(compCoords));
 		return compCoords;
 	}
+	public static boolean checkTie() {
+		//checks for tie
+		for (String[] gridY: renderableGrid) {
+			for (String square: gridY) {
+				if (square == "   |") {
+					return false;
+				}
+			}
+		}
+		System.out.println("Aw man, it's a tie!!");
+		return true;
+	}
 
 	public static boolean checkWin() {
 
-		boolean isMatched = true;
+		boolean isMatchedX = true;
+		boolean isMatchedO = true;
 		
 		String winner;
 		for (String[] gridY: renderableGrid) {
@@ -127,19 +142,27 @@ public class TicTacToe {
 			for (String square: gridY) {
 				//System.out.println(square.contains("X"));
 				
-				//this block of code replaced 'isMatched = square.contains("X")' [
+				//this block of code replaced 'isMatchedX = square.contains("X")' [
 				if (square.contains("X")) {
-					isMatched = true;
+					isMatchedX = true;
 				} else {
-					isMatched = false;
+					isMatchedX = false;
 					break;
 				}
 				//]
+				if (square.contains("O")) {
+					isMatchedO = true;
+				} else {
+					isMatchedO = false;
+					break;
+				}
 				
 			}
-			if (isMatched) {
+			if (isMatchedX) {
 				System.out.println("winner is X horizontally");
-				return isMatched;
+				return true;
+			} else if (isMatchedO) {
+				System.out.println("winner is O horizontally");
 			}
 
 
@@ -149,26 +172,42 @@ public class TicTacToe {
 		for (int j = 0; j < 3; j++) {
 			for (int i = 1; i < 6; i += 2) {
 				
-				//this block of code replaced 'isMatched = renderableGrid[i][j].contains("X")' [
+				//this block of code replaced 'isMatchedX = renderableGrid[i][j].contains("X")' [
 				if (renderableGrid[i][j].contains("X")) {
-					isMatched = true;
+					isMatchedX = true;
 				} else {
-					isMatched = false;
+					isMatchedX = false;
 					break;
 				}
 				//]
+				
+				if (renderableGrid[i][j].contains("O")) {
+					isMatchedO = true;
+				} else {
+					isMatchedO = false;
+					break;
+				}
 
 
 
 			}
-			if (isMatched) {
+			if (isMatchedX) {
 				System.out.println("winner is X vertically");
-				return isMatched;
+				return true;
+			} else if (isMatchedO) {
+				System.out.println("winner is O vertically");
 			}
+		}
+		//diagonal win
+		if ((renderableGrid[1][2].contains("X") && renderableGrid[3][1].contains("X") && renderableGrid[5][0].contains("X")) ||
+			(renderableGrid[1][0].contains("X") && renderableGrid[3][1].contains("X") && renderableGrid[5][2].contains("X"))) {
+			
+			System.out.println("Winner is X diagonally");
+			return true;
 		}
 
 		//System.out.println("wpllpl");
-		return isMatched;
+		return false;
 
 
 	}
