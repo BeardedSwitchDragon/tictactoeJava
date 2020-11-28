@@ -28,6 +28,7 @@ public class TicTacToe {
 
 			while (displayGrid(input[0], input[1], true)) {
 				input = getInput();
+
 			}
 			if (gameDone == false) {
 				System.out.println("My turn now:");
@@ -114,14 +115,26 @@ public class TicTacToe {
 	}
 
 	public static int[] getInput() {
-		int[] coordsInput = new int[2];
-		Scanner in = new Scanner(System.in);
-		System.out.println("Enter y coordinate (1,1) is top left:");
-		coordsInput[1] = in.nextInt();
-		System.out.println("Enter x coordinate:");
-		coordsInput[0] = in.nextInt();
-		turn++;
-		return coordsInput;
+		while (true) {
+			try {
+				int[] coordsInput = new int[2];
+				do {
+					Scanner in = new Scanner(System.in);
+					
+					System.out.print("\nEnter y coordinate (1,1) is top left: ");
+					coordsInput[1] = in.nextInt();
+					System.out.print("Enter x coordinate: ");
+					coordsInput[0] = in.nextInt();
+
+				} while ((coordsInput[0] < 0 || coordsInput[1] < 0) || (coordsInput[0] > 3 || coordsInput[1] >= 3));
+
+				turn++;
+				return coordsInput;
+			} catch (Exception e) {
+				continue;
+			}
+		}
+
 	}
 
 	public static int[] computerInput() {
@@ -157,11 +170,11 @@ public class TicTacToe {
 				//this block of code replaced 'isMatchedX = square.contains("X")' [
 				if (square.contains("X") && isMatchedO == false) {
 					isMatchedX = true;
-					
+
 
 				} else if (square.contains("O") && isMatchedX == false){
 					isMatchedO = true;
-					
+
 
 				} else {
 					isMatchedO = false;
