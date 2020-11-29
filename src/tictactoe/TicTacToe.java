@@ -24,18 +24,19 @@ public class TicTacToe {
 		
 		printGrid();
 		//GAME LOOP
-		
+		String input = "";
 		while (gameDone == false) {
 			//get input
 			
+			gameDone = (checkWin() || checkTie());
+			input = getInput();
 			
-			String input = getInput();
 			
 
 			//render grid
 
 
-			while (displayGrid(input, true)) {
+			while ((gameDone == false) && displayGrid(input, true)) {
 				
 				input = getInput();
 				
@@ -189,7 +190,7 @@ public class TicTacToe {
 				return true;
 			} else if (isMatchedO) {
 				System.out.println("winner is O horizontally");
-				return true;
+				System.exit(0);
 			}
 
 
@@ -219,6 +220,7 @@ public class TicTacToe {
 				return true;
 			} else if (isMatchedO) {
 				System.out.println("winner is O vertically");
+				System.exit(0);
 			}
 		}
 		//diagonal win
@@ -231,6 +233,7 @@ public class TicTacToe {
 				(renderableGrid[1][0].contains("O") && renderableGrid[3][1].contains("O") && renderableGrid[5][2].contains("O"))) {
 
 			System.out.println("Winner is O diagonally");
+			System.exit(0);
 			return true;
 		}
 
