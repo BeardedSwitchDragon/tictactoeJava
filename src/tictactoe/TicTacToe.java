@@ -1,6 +1,8 @@
 package tictactoe;
 
 import java.lang.reflect.Array;
+
+
 import java.util.*;
 public class TicTacToe {
 	static int turn = 0;
@@ -8,98 +10,46 @@ public class TicTacToe {
 	public static int[][] coords = new int[18][2];
 	static String[][] renderableGrid = {
 			{"---", " --- ", "---"},
-			{"  |", "   |", "   |"},
+			{"a  |", "b  |", "c  |"},
 			{"---", " --- ", "---"},
-			{"  |", "   |", "   |"},
+			{"d  |", "e  |", "f  |"},
 			{"---", " --- ", "---"},
-			{"  |", "   |", "   |"},
+			{"g  |", "h  |", "i  |"},
 			{"---", " --- ", "---"}
 
 	};
 	public static void main(String[] args) {
+		System.out.println("Welcome to tic-tac-toe! I'm O and you're X!");
+		System.out.println("Enter a valid input, or you'll be prompted again. \n");
+		
+		printGrid();
 		//GAME LOOP
+		
 		while (gameDone == false) {
 			//get input
-
-			int[] input = getInput();
-			int[] compInput = computerInput();
+			
+			
+			String input = getInput();
+			
 
 			//render grid
 
-			while (displayGrid(input[0], input[1], true)) {
+
+			while (displayGrid(input, true)) {
+				
 				input = getInput();
+				
 
 			}
-			if (gameDone == false) {
-				System.out.println("My turn now:");
-				boolean t;
-				while (t = displayGrid(compInput[0], compInput[1], false)) {
-					compInput = computerInput();
-
-				}
-			}
+			gameDone = (checkWin() || checkTie());
+			
+			computerInput();
 
 		}
 
 	}
-	public static boolean displayGrid(int x, int y, boolean p1Turn) {
-		//Hashtable of co-ords on the grid - to be rendered/interpreted:
-
-
-
-
-
-		//interpret grid here:
-
-		//here i use 3x3 because a tictactoe grid will always be in these dimensions.
-		if (x <= 3) x -= 1;
-
-		if (y == 3) y = 5;
-
-		if ((y % 2 == 0)) y += 1;
-
-
-		coords[turn] = new int[] {x, y};
-		//update grid
-
-		if (renderableGrid[y][x].contains("X") == false && renderableGrid[y][x].contains("O") == false ) {
-
-			if (p1Turn) {
-
-				switch (x) {
-				case 0:
-					renderableGrid[y][x] = " X|";
-					break;
-				case 1:
-					renderableGrid[y][x] = "  X|";
-					break;
-				case 2:
-					renderableGrid[y][x] = "  X|";
-					break;
-				default:
-					break;
-				}
-
-			} else {
-				switch (x) {
-				case 0:
-					renderableGrid[y][x] = " O|";
-					break;
-				case 1:
-					renderableGrid[y][x] = "  O|";
-					break;
-				case 2:
-					renderableGrid[y][x] = "  O|";
-					break;
-				default:
-					break;
-				}
-			}
-		} else {
-			if (p1Turn) System.out.println("Space is already occupied!");
-			return true;
-		}
-		//render grid
+	
+	public static void printGrid() {
 		for (String[] gridY: renderableGrid) {
 			for (String square: gridY) {
 
@@ -108,46 +58,95 @@ public class TicTacToe {
 			}
 			System.out.println();
 		}
+	}
+	public static boolean displayGrid(CharSequence squareLetter, boolean p1Turn) {
+		//Hashtable of co-ords on the grid - to be rendered/interpreted:
+		int x = 0;
+		int y = 0;
+
+
+
+		//interpret grid here:
+		
+		
+		for (int i = 0; i < renderableGrid.length; i++) {
+			
+			for (int j = 0; j < renderableGrid[i].length; j++) {
+				String square = renderableGrid[i][j];
+		
+				if (square.contains(squareLetter + " ") || square.contains((squareLetter + " ").toUpperCase()) ) {
+					y = i;
+					x = j;
+				} 
+			}
+		}
+		
+		
+		
+		renderableGrid[y][x] = "X  |";
+		printGrid();
+		//here i use 3x3 because a tictactoe grid will always be in these dimensions.
+
+		//update grid
+
+
+
+		//render grid
+		
 		//gets whichever is true
-		gameDone = (checkTie() || checkWin());
+
+		
 		turn++;
 		return false;
 	}
 
-	public static int[] getInput() {
+	public static String getInput() {
 		while (true) {
 			try {
 				int[] coordsInput = new int[2];
+				String spaceInput;
 				do {
 					Scanner in = new Scanner(System.in);
-					
-					System.out.print("\nEnter y coordinate (1,1) is top left: ");
-					coordsInput[1] = in.nextInt();
-					System.out.print("Enter x coordinate: ");
-					coordsInput[0] = in.nextInt();
 
-				} while ((coordsInput[0] < 0 || coordsInput[1] < 0) || (coordsInput[0] > 3 || coordsInput[1] >= 3));
+					System.out.print("select grid space using letter: ");
+					spaceInput = in.next();
+					System.out.println();
+
+				} while ((Arrays.deepToString(renderableGrid).contains(spaceInput) == false) || (Arrays.deepToString(renderableGrid).contains(spaceInput.toLowerCase()) == false));
 
 				turn++;
-				return coordsInput;
+				return spaceInput;
 			} catch (Exception e) {
+				System.out.println("invalid input.");
 				continue;
 			}
 		}
 
 	}
 
-	public static int[] computerInput() {
+	public static void computerInput() {
 		Random rand = new Random();
-		int[] compCoords = {(int) (1 + Math.random() * 3), rand.nextInt(4)};
-		System.out.println(Arrays.toString(compCoords));
-		return compCoords;
+		int[] compCoords = new int[2];
+		do {
+
+			int[] possibleY = {1, 3, 5};
+			compCoords[0] = possibleY[(int) (rand.nextInt(3))];
+			compCoords[1] = (int) (rand.nextInt(3));
+		} while ((renderableGrid[compCoords[0]][compCoords[1]].contains("X")) || ((renderableGrid[compCoords[0]][compCoords[1]].contains("O"))));
+		if (gameDone == false) {
+			System.out.println("My turn now: \n");
+			renderableGrid[compCoords[0]][compCoords[1]] = "O  |";
+			printGrid();
+		}
+		
+
 	}
 	public static boolean checkTie() {
 		//checks for tie
 		for (String[] gridY: renderableGrid) {
 			for (String square: gridY) {
-				if (square == "   |") {
+				if (((square.contains("X  |") == false) && (square.contains("O  |") == false)) && (square.contains("-") == false)) {
+					
 					return false;
 				}
 			}
